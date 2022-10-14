@@ -10,7 +10,6 @@ import com.reggie.pojo.DishFlavor;
 import com.reggie.service.CategoryService;
 import com.reggie.service.DishFlavorService;
 import com.reggie.service.DishService;
-import net.sf.jsqlparser.util.deparser.CreateTableDeParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -18,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -115,7 +113,7 @@ public class DishController {
             dishService.updateById(dish);
             return R.success("状态修改成功");
         } else {
-            List<Dish> dishList = null;
+            List<Dish> dishList;
             dishList = ids.stream().map((item) -> {
                 Dish dish = dishService.getById(item);
                 dish.setStatus(status);

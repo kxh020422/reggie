@@ -48,7 +48,7 @@ public class UserController {
             logger.info("======================={}=======================", code);
 
             //调用阿里云提供的短信服务API完成发送短信
-            SMSUtils.sendMessage("阿里云短信测试", "SMS_154950909", phone, code);
+//            SMSUtils.sendMessage("阿里云短信测试", "SMS_154950909", phone, code);
 
             //将生成的验证码保存到session
 //            session.setAttribute(phone, code);

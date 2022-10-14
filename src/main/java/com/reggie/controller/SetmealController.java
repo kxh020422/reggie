@@ -18,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 
@@ -108,12 +110,17 @@ public class SetmealController {
         return R.success("修改成功");
     }
 
-
+    /**
+     * @date: 2022/10/14 20:33
+     * @remark: @CacheEvict(value = "setmealCache", allEntries = true) 将"setmealCache"下的所有缓存数据 全部删除
+     */
     @DeleteMapping
+    @CacheEvict(value = "setmealCache", allEntries = true)
     public R<String> delete(@RequestParam("id") List<Long> ids) {
         setmealService.removeWithDish(ids);
         return R.success("删除成功");
     }
+
 
 
     @PostMapping("/status/{status}")
@@ -124,6 +131,8 @@ public class SetmealController {
     }
 
     @GetMapping("/list")
+    @Cacheable(value = "setmealCache",
+            key = "#setmeal.categoryId + '_' + #setmeal.status")
     public R<List<Setmeal>> list(Setmeal setmeal){
         LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(setmeal.getCategoryId() != null,Setmeal::getCategoryId,setmeal.getCategoryId());
