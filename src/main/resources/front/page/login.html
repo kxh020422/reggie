@@ -23,13 +23,23 @@
 	<div id="login" v-loading="loading">
 		<div class="divHead">登录</div>
 		<div class="divContainer">
-			<el-input placeholder=" 请输入手机号码" v-model="form.phone" maxlength='20'></el-input>
+			<el-input placeholder="请输入邮箱" v-model="form.email" maxlength='20'></el-input>
 			<div class="divSplit"></div>
-			<el-input placeholder=" 请输入验证码" v-model="form.code" maxlength='20'></el-input>
-			<span @click='getCode'>获取验证码</span>
+			<div v-if="this.handleLoginStatus == 1">
+				<el-input placeholder=" 请输入验证码" v-model="form.code" maxlength='20'></el-input>
+			</div>
+			<span @click='getCode' v-if="this.handleLoginStatus == 1">获取验证码</span>
+			<div v-if="this.handleLoginStatus == 1 ? false : true">
+				<el-input placeholder=" 请输入密码" v-model="form.password" maxlength='20' type="password"></el-input>
+			</div>
+		
 		</div>
-		<div class="divMsg" v-if="msgFlag">手机号输入不正确，请重新输入</div>
-		<el-button type="primary" :class="{btnSubmit:1===1,btnNoPhone:!form.phone,btnPhone:form.phone}"
+		<div class="divMsg" v-if="msgFlag">邮箱输入格式输入不正确，请重新输入</div>
+		<div style="margin-top: 9px;margin-left: 70%">
+			<el-link type="primary" @click="handleLogin()">切换登录方式</el-link>
+		</div>
+		
+		<el-button type="primary" :class="{btnSubmit:1===1,btnNoPhone:!form.email,btnPhone:form.email}"
 		           @click="btnLogin">登录
 		</el-button>
 	</div>
@@ -50,11 +60,13 @@
         data() {
             return {
                 form: {
-                    phone: '13022783239',
-                    code: ''
+                    email: '',
+                    code: '',
+	                password: ''
                 },
                 msgFlag: false,
-                loading: false
+                loading: false,
+	            handleLoginStatus: 1
             }
         },
         computed: {},
@@ -65,22 +77,22 @@
         methods: {
             getCode() {
                 this.form.code = ''
-                const regex = /^(13[0-9]{9})|(15[0-9]{9})|(17[0-9]{9})|(18[0-9]{9})|(19[0-9]{9})$/;
-                if (regex.test(this.form.phone)) {
+                const regex = /^([a-z0-9A-Z]+[-|\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\.)+[a-zA-Z]{2,}$/;
+                if (regex.test(this.form.email)) {
                     this.msgFlag = false
                     //this.form.code = (Math.random()*1000000).toFixed(0)
-                    sendMsgApi({phone: this.form.phone})
+                    sendMsgApi({email: this.form.email})
                 } else {
                     this.msgFlag = true
                 }
             },
             async btnLogin() {
-                if (this.form.phone && this.form.code) {
+                if ((this.form.email && this.form.code) || (this.form.email && this.form.password)) {
                     this.loading = true
                     const res = await loginApi(this.form)
                     this.loading = false
                     if (res.code === 1) {
-                        sessionStorage.setItem("userPhone", this.form.phone)
+                        sessionStorage.setItem("userEmail", this.form.email)
                         window.requestAnimationFrame(() => {
                             window.location.href = '/front/index.html'
                         })
@@ -88,7 +100,14 @@
                         this.$notify({type: 'warning', message: res.msg});
                     }
                 } else {
-                    this.$notify({type: 'warning', message: '请输入手机号码'});
+                    this.$notify({type: 'warning', message: '请输入邮箱'});
+                }
+            },
+            handleLogin() {
+                if (this.handleLoginStatus == 1 ) {
+                    this.handleLoginStatus = 2;
+                } else {
+                    this.handleLoginStatus = 1;
                 }
             }
         }

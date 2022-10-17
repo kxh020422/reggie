@@ -21,4 +21,11 @@ function loginoutApi() {
   })
 }
 
-  
+function changPassword(data) {
+    return $axios({
+        'url': '/user/handlePassword',
+        'method': 'put',
+        data
+    })
+
+}

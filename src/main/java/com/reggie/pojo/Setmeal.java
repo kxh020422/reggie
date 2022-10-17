@@ -1,6 +1,9 @@
 package com.reggie.pojo;
 
 import com.baomidou.mybatisplus.annotation.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -12,46 +15,55 @@ import java.util.Date;
  * @TableName setmeal
  */
 @TableName(value ="setmeal")
+@ApiModel("套餐")
 public class Setmeal implements Serializable {
     /**
      * 主键
      */
     @TableId
+    @ApiModelProperty("主键")
     private Long id;
 
     /**
      * 菜品分类id
      */
+    @ApiModelProperty("菜品分类id")
     private Long categoryId;
 
     /**
      * 套餐名称
      */
+    @ApiModelProperty("套餐名称")
     private String name;
 
     /**
      * 套餐价格
      */
+    @ApiModelProperty("套餐价格")
     private BigDecimal price;
 
     /**
      * 状态 0:停用 1:启用
      */
+    @ApiModelProperty("状态 0:停用 1:启用")
     private Integer status;
 
     /**
      * 编码
      */
+    @ApiModelProperty("编码")
     private String code;
 
     /**
      * 描述信息
      */
+    @ApiModelProperty("描述信息")
     private String description;
 
     /**
      * 图片
      */
+    @ApiModelProperty("图片")
     private String image;
 
     /**

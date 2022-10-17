@@ -7,6 +7,8 @@
     <resultMap id="BaseResultMap" type="com.reggie.pojo.User">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
             <result property="phone" column="phone" jdbcType="VARCHAR"/>
             <result property="sex" column="sex" jdbcType="VARCHAR"/>
             <result property="idNumber" column="id_number" jdbcType="VARCHAR"/>
@@ -15,8 +17,8 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,name,phone,
-        sex,id_number,avatar,
-        status
+        id,name,email,
+        password,phone,sex,
+        id_number,avatar,status
     </sql>
 </mapper>

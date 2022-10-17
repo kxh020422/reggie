@@ -36,7 +36,7 @@ public class LoginCheckFilter implements Filter {
 
         //1.获取本次请求的uri
         String requestURI = request.getRequestURI();
-        Long empId = (Long)request.getSession().getAttribute("employee");
+        Long empId = (Long) request.getSession().getAttribute("employee");
 
         logger.info("拦截到请求：" + requestURI);
         //定义不需要处理的资源请求路径
@@ -47,7 +47,11 @@ public class LoginCheckFilter implements Filter {
                 "/front/**",
                 "/common/**",
                 "/user/sendMsg",
-                "/user/login"
+                "/user/login",
+                "/doc.html",
+                "/webjars/**",
+                "/swagger-resources",
+                "/v2/api-docs"
         };
 
         //2.判断哪些请求需要处理
@@ -77,7 +81,7 @@ public class LoginCheckFilter implements Filter {
 //            long id = Thread.currentThread().getId();
 //            String name = Thread.currentThread().getName();
 //            logger.info("当前线程id为{}，线程名称为{}", id, name);
-            Long userId = (Long)request.getSession().getAttribute("user");
+            Long userId = (Long) request.getSession().getAttribute("user");
             BaseContext.setCurrentId(userId);
             filterChain.doFilter(request, response);
             return;
