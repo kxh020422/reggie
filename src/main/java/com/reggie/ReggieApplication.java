@@ -8,9 +8,9 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * @ClassName ReggieApplication
- * @Date 2022/9/26 11:21
- */
+* @ClassName ReggieApplication
+* @Date 2022/9/26 11:21
+*/
 @SpringBootApplication
 @ServletComponentScan
 @MapperScan("com.reggie.mapper")
